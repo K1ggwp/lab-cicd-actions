@@ -1,5 +1,5 @@
-## versão 4 - planejada
+## versão 4 - publicada em 12/10
 
-Adicionar nova frase - 1
-mudança de cor - 2
-Alterar emoji - 3
+[x]Adicionar nova frase - 1
+[x]mudança de cor - 2
+[x]Alterar emoji - 3
