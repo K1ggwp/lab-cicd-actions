@@ -4,70 +4,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu site - Demo do Copilot</title>
+
   <style>
     body {
-    margin: 0;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    font-family: system-ui, "Segoe UI";
-    background: green;
-    padding: 1rem;
-}
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: system-ui, "Segoe UI", sans-serif;
+      background: #DCEEFF;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
     .cartao {
-      background: #fff;
+      background: #FFFFFF;
       border-radius: 20px;
       padding: 2.5rem;
       max-width: 520px;
       width: 100%;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+      box-sizing: border-box;
+      box-shadow: 0 20px 50px rgba(37, 99, 160, 0.15);
       text-align: center;
-      color: #1d1d1f;
+      color: #243447;
     }
-    .emoji { font-size: 4rem; }
-    h1 { margin: .5rem 0; color: #6e6e73; }
+
+    .emoji {
+      font-size: 4rem;
+    }
+
+    h1 {
+      margin: .5rem 0;
+      color: #2563A6;
+    }
+
     .versao {
       margin-top: 1.5rem;
       padding: 1rem;
       border-radius: 12px;
-      background: #f2f2f7;
+      background: #EFF6FF;
       text-align: left;
       line-height: 1.8;
+      color: #334155;
     }
+
     .botao {
       border: 0;
       border-radius: 10px;
       padding: .8rem 1.1rem;
-      background: #1d1d1f;
-      color: #fff;
+      background: #2563A6;
+      color: #FFFFFF;
       font: inherit;
       font-weight: 700;
       cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
     }
-    .botao:hover { background: #3a3a3c; }
-    .status { min-height: 1.5rem; color: #6e6e73; }
-    code { background: #e5e5ea; padding: 2px 6px; border-radius: 6px; }
-    footer { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e5ea; color: #6e6e73; font-size: .85rem; }
+
+    .botao:hover {
+      background: #174B80;
+      transform: translateY(-2px);
+    }
+
+    .botao:focus-visible {
+      outline: 3px solid #93C5FD;
+      outline-offset: 3px;
+    }
+
+    .status {
+      min-height: 1.5rem;
+      color: #52708D;
+    }
+
+    code {
+      background: #DBEAFE;
+      color: #1D4ED8;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    footer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #D7E5F5;
+      color: #64748B;
+      font-size: .85rem;
+    }
   </style>
 </head>
+
 <body>
   <main class="cartao">
     <div class="emoji">🚀</div>
+
     <h1>Demo do Copilot</h1>
+
     <p>Uma pequena mudança feita ao vivo no Codespaces.</p>
 
-    <button class="botao" id="publicar" type="button">💖 Simular nova publicação</button>
-    <p class="status" id="status" aria-live="polite">Aguardando o primeiro teste...</p> 
+    <button class="botao" id="publicar" type="button">
+      💖 Simular nova publicação
+    </button>
 
-    <p>Acredite no seu potencial: cada pequeno passo te aproxima da vida que você deseja.</p>
-    <p>Motivação faz você começar, o hábito faz você continuar.</p>
-    
+    <p class="status" id="status" aria-live="polite">
+      Aguardando o primeiro teste...
+    </p>
+
+    <p>
+      Acredite no seu potencial: cada pequeno passo te aproxima da vida que você deseja.
+    </p>
+
+    <p>
+      Motivação faz você começar, o hábito faz você continuar.
+    </p>
 
     <div class="versao">
       🤖 <strong>Publicado pelo robô em:</strong> __DATA__<br>
       🔖 <strong>Commit:</strong> <code id="commit">__COMMIT__</code><br>
       👤 <strong>Enviado por:</strong> __AUTOR__<br>
-      🔁 <strong>Execuções nesta página:</strong> <span id="contador">0</span>
+      🔁 <strong>Execuções nesta página:</strong>
+      <span id="contador">0</span>
     </div>
 
     <footer>
@@ -75,18 +129,23 @@
       Prof. Marcelino Dias da Silva
     </footer>
   </main>
+
   <script>
     const botao = document.querySelector('#publicar');
     const status = document.querySelector('#status');
     const contador = document.querySelector('#contador');
     const commit = document.querySelector('#commit');
+
     let execucoes = 0;
 
     botao.addEventListener('click', () => {
       execucoes += 1;
       contador.textContent = execucoes;
-      commit.textContent = `demo-${String(execucoes).padStart(2, '0')}`;
-      status.textContent = '✅ Verificação aprovada. Publicação concluída!';
+      commit.textContent =
+        `demo-${String(execucoes).padStart(2, '0')}`;
+
+      status.textContent =
+        '✅ Verificação aprovada. Publicação concluída!';
     });
   </script>
 </body>
