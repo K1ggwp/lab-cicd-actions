@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Versão 5</title>
+  <title>Minha To-Do List</title>
 
   <style>
     :root {
@@ -35,16 +35,20 @@
       background: var(--creme-claro);
       border: 1px solid #FFFFFF;
       border-radius: 22px;
-      padding: 2.5rem;
+      padding: 2rem;
       max-width: 520px;
       width: 100%;
       box-shadow: 0 20px 50px rgba(166, 82, 25, 0.12);
-      text-align: center;
       color: var(--texto);
     }
 
+    .cabecalho {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
     .emoji {
-      font-size: 4rem;
+      font-size: 3.5rem;
       margin-bottom: 0.5rem;
     }
 
@@ -54,55 +58,152 @@
     }
 
     p {
-      line-height: 1.7;
+      line-height: 1.6;
+    }
+
+    .subtitulo {
+      color: var(--texto-suave);
+      margin-bottom: 0;
+    }
+
+    .formulario {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: 1rem;
+    }
+
+    .entrada {
+      min-width: 0;
+      flex: 1;
+      padding: .85rem;
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      background: #FFFFFF;
+      color: var(--texto);
+      font: inherit;
+      outline: none;
+    }
+
+    .entrada:focus {
+      border-color: var(--laranja);
+      box-shadow: 0 0 0 3px rgba(232, 117, 36, .12);
     }
 
     .botao {
       border: 0;
       border-radius: 12px;
-      padding: .85rem 1.2rem;
+      padding: .85rem 1rem;
       background: var(--laranja);
       color: #FFFFFF;
       font: inherit;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 5px 12px rgba(232, 117, 36, 0.2);
-      transition: background 0.2s, transform 0.2s;
+      transition: background .2s, transform .2s;
     }
 
     .botao:hover {
       background: var(--laranja-escuro);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
-    .botao:focus-visible {
+    .botao:focus-visible,
+    .filtro:focus-visible,
+    .excluir:focus-visible {
       outline: 3px solid #F6B77F;
-      outline-offset: 4px;
+      outline-offset: 3px;
     }
 
-    .status {
-      min-height: 1.5rem;
+    .resumo {
+      display: flex;
+      justify-content: space-between;
+      gap: .5rem;
+      color: var(--texto-suave);
+      font-size: .9rem;
+      margin: 1rem 0;
+    }
+
+    .filtros {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .filtro {
+      border: 1px solid var(--borda);
+      background: var(--creme);
+      color: var(--texto-suave);
+      padding: .5rem .8rem;
+      border-radius: 9px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .85rem;
+    }
+
+    .filtro.ativo {
+      background: var(--laranja);
+      border-color: var(--laranja);
+      color: #FFFFFF;
+    }
+
+    .lista {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tarefa {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .9rem;
+      margin-bottom: .65rem;
+      background: var(--creme);
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .tarefa input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      accent-color: var(--laranja);
+      cursor: pointer;
+    }
+
+    .texto-tarefa {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tarefa.concluida .texto-tarefa {
+      text-decoration: line-through;
+      color: var(--texto-suave);
+      opacity: .7;
+    }
+
+    .excluir {
+      border: none;
+      background: transparent;
+      color: var(--laranja-escuro);
+      font-size: 1.1rem;
+      padding: .25rem;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .vazia {
+      text-align: center;
+      padding: 1.5rem .5rem;
       color: var(--texto-suave);
     }
 
-    code {
-      background: #FFE4CC;
-      color: #943D0B;
-      padding: 3px 7px;
-      border-radius: 6px;
-      overflow-wrap: anywhere;
-    }
-
-    .versao {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      border-radius: 14px;
-      background: var(--creme);
-      border: 1px solid var(--borda);
-      text-align: left;
-      line-height: 1.9;
-      color: var(--texto);
-      overflow-wrap: anywhere;
+    .mensagem {
+      min-height: 1.4rem;
+      color: var(--texto-suave);
+      font-size: .85rem;
+      margin: .5rem 0;
     }
 
     footer {
@@ -112,20 +213,25 @@
       color: var(--texto-suave);
       font-size: .85rem;
       line-height: 1.8;
+      text-align: center;
     }
 
     @media (max-width: 480px) {
       .cartao {
-        padding: 1.5rem;
+        padding: 1.25rem;
         border-radius: 18px;
       }
 
-      .emoji {
-        font-size: 3.5rem;
+      .formulario {
+        flex-direction: column;
       }
 
       .botao {
-        max-width: 100%;
+        width: 100%;
+      }
+
+      .resumo {
+        font-size: .8rem;
       }
     }
   </style>
@@ -133,59 +239,189 @@
 
 <body>
   <main class="cartao">
-    <div class="emoji">🚀</div>
 
-    <h1>Versão 5</h1>
+    <header class="cabecalho">
+      <div class="emoji">📝</div>
+      <h1>Minha To-Do List</h1>
+      <p class="subtitulo">
+        Organize suas tarefas e conquiste seus objetivos!
+      </p>
+    </header>
 
-    <p>Uma pequena mudança feita ao vivo no Codespaces.</p>
+    <form class="formulario" id="formulario">
+      <input
+        class="entrada"
+        id="entrada"
+        type="text"
+        placeholder="O que você precisa fazer?"
+        maxlength="200"
+        autocomplete="off"
+        aria-label="Nova tarefa"
+        required
+      >
 
-    <button class="botao" id="publicar" type="button">
-      🧡 Simular nova publicação
-    </button>
+      <button class="botao" type="submit">
+        + Adicionar
+      </button>
+    </form>
 
-    <p class="status" id="status" aria-live="polite">
-      Aguardando o primeiro teste...
-    </p>
-
-    <p>
-      Acredite no seu potencial: cada pequeno passo te aproxima da vida que você deseja.
-    </p>
-
-    <p>
-      Motivação faz você começar, o hábito faz você continuar.
-    </p>
-
-    <div class="versao">
-      🤖 <strong>Publicado pelo robô em:</strong> __DATA__<br>
-      🔖 <strong>Commit:</strong> <code id="commit">__COMMIT__</code><br>
-      👤 <strong>Enviado por:</strong> __AUTOR__<br>
-      🔁 <strong>Execuções nesta página:</strong>
-      <span id="contador">0</span>
+    <div class="resumo">
+      <span>Pendentes: <strong id="pendentes">0</strong></span>
+      <span>Concluídas: <strong id="concluidas">0</strong></span>
     </div>
 
+    <nav class="filtros" aria-label="Filtrar tarefas">
+      <button class="filtro ativo" data-filtro="todas" type="button">
+        Todas
+      </button>
+
+      <button class="filtro" data-filtro="pendentes" type="button">
+        Pendentes
+      </button>
+
+      <button class="filtro" data-filtro="concluidas" type="button">
+        Concluídas
+      </button>
+    </nav>
+
+    <ul class="lista" id="lista"></ul>
+
+    <p class="mensagem" id="mensagem" aria-live="polite"></p>
+
     <footer>
-      🎓 UNINOVE · Automação de Processos · DevOps<br>
-      Prof. Marcelino Dias da Silva
+      🧡 Um passo de cada vez.<br>
+      Pequenas tarefas, grandes conquistas!
     </footer>
+
   </main>
 
   <script>
-    const botao = document.querySelector('#publicar');
-    const status = document.querySelector('#status');
-    const contador = document.querySelector('#contador');
-    const commit = document.querySelector('#commit');
+    const formulario = document.querySelector('#formulario');
+    const entrada = document.querySelector('#entrada');
+    const lista = document.querySelector('#lista');
+    const pendentes = document.querySelector('#pendentes');
+    const concluidas = document.querySelector('#concluidas');
+    const mensagem = document.querySelector('#mensagem');
+    const botoesFiltro = document.querySelectorAll('.filtro');
 
-    let execucoes = 0;
+    let tarefas = [];
+    let filtroAtual = 'todas';
 
-    botao.addEventListener('click', () => {
-      execucoes += 1;
-      contador.textContent = execucoes;
-      commit.textContent =
-        `demo-${String(execucoes).padStart(2, '0')}`;
+    formulario.addEventListener('submit', (evento) => {
+      evento.preventDefault();
 
-      status.textContent =
-        '✅ Verificação aprovada. Publicação concluída!';
+      const texto = entrada.value.trim();
+
+      if (!texto) return;
+
+      tarefas.push({
+        id: Date.now() + Math.random(),
+        texto: texto,
+        concluida: false
+      });
+
+      entrada.value = '';
+      mensagem.textContent = 'Tarefa adicionada com sucesso!';
+      renderizar();
+      entrada.focus();
     });
+
+    function renderizar() {
+      lista.replaceChildren();
+
+      const filtradas = tarefas.filter((tarefa) => {
+        if (filtroAtual === 'pendentes') {
+          return !tarefa.concluida;
+        }
+
+        if (filtroAtual === 'concluidas') {
+          return tarefa.concluida;
+        }
+
+        return true;
+      });
+
+      pendentes.textContent =
+        tarefas.filter(t => !t.concluida).length;
+
+      concluidas.textContent =
+        tarefas.filter(t => t.concluida).length;
+
+      if (filtradas.length === 0) {
+        const item = document.createElement('li');
+        item.className = 'vazia';
+
+        item.textContent = tarefas.length === 0
+          ? '🌱 Sua lista está vazia. Adicione uma tarefa!'
+          : '✨ Nenhuma tarefa encontrada neste filtro.';
+
+        lista.appendChild(item);
+      }
+
+      filtradas.forEach((tarefa) => {
+        const item = document.createElement('li');
+        item.className = 'tarefa';
+
+        if (tarefa.concluida) {
+          item.classList.add('concluida');
+        }
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = tarefa.concluida;
+        checkbox.setAttribute(
+          'aria-label',
+          'Marcar ' + tarefa.texto + ' como concluída'
+        );
+
+        checkbox.addEventListener('change', () => {
+          tarefa.concluida = checkbox.checked;
+
+          mensagem.textContent = tarefa.concluida
+            ? '✅ Tarefa concluída!'
+            : 'Tarefa marcada como pendente.';
+
+          renderizar();
+        });
+
+        const texto = document.createElement('span');
+        texto.className = 'texto-tarefa';
+        texto.textContent = tarefa.texto;
+
+        const excluir = document.createElement('button');
+        excluir.className = 'excluir';
+        excluir.type = 'button';
+        excluir.textContent = '🗑️';
+        excluir.setAttribute(
+          'aria-label',
+          'Excluir tarefa: ' + tarefa.texto
+        );
+
+        excluir.addEventListener('click', () => {
+          tarefas = tarefas.filter(t => t.id !== tarefa.id);
+          mensagem.textContent = 'Tarefa excluída.';
+          renderizar();
+        });
+
+        item.append(checkbox, texto, excluir);
+        lista.appendChild(item);
+      });
+    }
+
+    botoesFiltro.forEach((botao) => {
+      botao.addEventListener('click', () => {
+        filtroAtual = botao.dataset.filtro;
+
+        botoesFiltro.forEach((b) => {
+          b.classList.toggle('ativo', b === botao);
+        });
+
+        mensagem.textContent = '';
+        renderizar();
+      });
+    });
+
+    renderizar();
   </script>
 </body>
 </html>
