@@ -1,6 +1,6 @@
-## versão 6 planejada - To-do list
+## versão 6 - Release To-do list
 
-[]opcao de adicionar tarefa - 1
-[]opção de excluir tarefa - 2
-[]Verificar tarefas pendentes - 3
-[]Notificação de tarefa adicionada ou excluida - 4
+[x]opcao de adicionar tarefa - 1
+[x]opção de excluir tarefa - 2
+[x]Verificar tarefas pendentes - 3
+[x]Notificação de tarefa adicionada ou excluida - 4
