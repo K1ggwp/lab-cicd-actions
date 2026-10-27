@@ -1,53 +1,166 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meu site - Versão 3 — corrigida</title>
+  <title>Versão 5</title>
+
   <style>
+    :root {
+      --laranja: #E87524;
+      --laranja-escuro: #B94F12;
+      --creme: #FFF5E9;
+      --creme-claro: #FFFCF8;
+      --texto: #493629;
+      --texto-suave: #866B58;
+      --borda: #F1D8C1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
       display: grid;
       place-items: center;
-      font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-      background: #1e9e5a;
+      font-family: system-ui, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #FFE8D1, #FFF7ED);
       padding: 1rem;
     }
+
     .cartao {
-      background: #fff;
-      border-radius: 20px;
+      background: var(--creme-claro);
+      border: 1px solid #FFFFFF;
+      border-radius: 22px;
       padding: 2.5rem;
       max-width: 520px;
       width: 100%;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+      box-shadow: 0 20px 50px rgba(166, 82, 25, 0.12);
       text-align: center;
-      color: #1d1d1f;
+      color: var(--texto);
     }
-    .emoji { font-size: 4rem; }
-    h1 { margin: .5rem 0; color: #1e9e5a; }
+
+    .emoji {
+      font-size: 4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      margin: .5rem 0;
+      color: var(--laranja-escuro);
+    }
+
+    p {
+      line-height: 1.7;
+    }
+
+    .botao {
+      border: 0;
+      border-radius: 12px;
+      padding: .85rem 1.2rem;
+      background: var(--laranja);
+      color: #FFFFFF;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(232, 117, 36, 0.2);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .botao:hover {
+      background: var(--laranja-escuro);
+      transform: translateY(-2px);
+    }
+
+    .botao:focus-visible {
+      outline: 3px solid #F6B77F;
+      outline-offset: 4px;
+    }
+
+    .status {
+      min-height: 1.5rem;
+      color: var(--texto-suave);
+    }
+
+    code {
+      background: #FFE4CC;
+      color: #943D0B;
+      padding: 3px 7px;
+      border-radius: 6px;
+      overflow-wrap: anywhere;
+    }
+
     .versao {
       margin-top: 1.5rem;
       padding: 1rem;
-      border-radius: 12px;
-      background: #f2f2f7;
+      border-radius: 14px;
+      background: var(--creme);
+      border: 1px solid var(--borda);
       text-align: left;
+      line-height: 1.9;
+      color: var(--texto);
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--borda);
+      color: var(--texto-suave);
+      font-size: .85rem;
       line-height: 1.8;
     }
-    code { background: #e5e5ea; padding: 2px 6px; border-radius: 6px; }
-    footer { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e5ea; color: #6e6e73; font-size: .85rem; }
+
+    @media (max-width: 480px) {
+      .cartao {
+        padding: 1.5rem;
+        border-radius: 18px;
+      }
+
+      .emoji {
+        font-size: 3.5rem;
+      }
+
+      .botao {
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
+
 <body>
   <main class="cartao">
-    <div class="emoji">✅</div>
-    <h1>Versão 3 — corrigida</h1>
-    <p>O erro foi corrigido e o robô publicou de novo.</p>
+    <div class="emoji">🚀</div>
+
+    <h1>Versão 5</h1>
+
+    <p>Uma pequena mudança feita ao vivo no Codespaces.</p>
+
+    <button class="botao" id="publicar" type="button">
+      🧡 Simular nova publicação
+    </button>
+
+    <p class="status" id="status" aria-live="polite">
+      Aguardando o primeiro teste...
+    </p>
+
+    <p>
+      Acredite no seu potencial: cada pequeno passo te aproxima da vida que você deseja.
+    </p>
+
+    <p>
+      Motivação faz você começar, o hábito faz você continuar.
+    </p>
 
     <div class="versao">
       🤖 <strong>Publicado pelo robô em:</strong> __DATA__<br>
-      🔖 <strong>Commit:</strong> <code>__COMMIT__</code><br>
-      👤 <strong>Enviado por:</strong> __AUTOR__
+      🔖 <strong>Commit:</strong> <code id="commit">__COMMIT__</code><br>
+      👤 <strong>Enviado por:</strong> __AUTOR__<br>
+      🔁 <strong>Execuções nesta página:</strong>
+      <span id="contador">0</span>
     </div>
 
     <footer>
@@ -55,5 +168,24 @@
       Prof. Marcelino Dias da Silva
     </footer>
   </main>
+
+  <script>
+    const botao = document.querySelector('#publicar');
+    const status = document.querySelector('#status');
+    const contador = document.querySelector('#contador');
+    const commit = document.querySelector('#commit');
+
+    let execucoes = 0;
+
+    botao.addEventListener('click', () => {
+      execucoes += 1;
+      contador.textContent = execucoes;
+      commit.textContent =
+        `demo-${String(execucoes).padStart(2, '0')}`;
+
+      status.textContent =
+        '✅ Verificação aprovada. Publicação concluída!';
+    });
+  </script>
 </body>
 </html>
