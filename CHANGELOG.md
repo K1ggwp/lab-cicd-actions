@@ -1,4 +1,6 @@
-## versão 5 - publicada em 19/10
+## versão 6 planejada - To-do list
 
-[x]mudança de cor - 1
-
+[]opcao de adicionar tarefa - 1
+[]opção de excluir tarefa - 2
+[]Verificar tarefas pendentes - 3
+[]Notificação de tarefa adicionada ou excluida - 4
