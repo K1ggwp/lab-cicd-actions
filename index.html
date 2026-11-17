@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minha To-Do List</title>
+  <title>Minha To-Do List - versão final</title>
 
   <style>
     :root {
@@ -15,6 +14,8 @@
       --texto: #493629;
       --texto-suave: #866B58;
       --borda: #F1D8C1;
+      --aviso-fundo: #FFF0D6;
+      --aviso-borda: #F2B866;
     }
 
     * {
@@ -40,6 +41,44 @@
       width: 100%;
       box-shadow: 0 20px 50px rgba(166, 82, 25, 0.12);
       color: var(--texto);
+    }
+
+    .aviso {
+      display: flex;
+      gap: .85rem;
+      align-items: flex-start;
+      background: var(--aviso-fundo);
+      border: 1px solid var(--aviso-borda);
+      border-left: 6px solid var(--laranja);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .aviso-icone {
+      font-size: 1.6rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .aviso-titulo {
+      margin: 0 0 .25rem;
+      font-size: 1rem;
+      color: var(--laranja-escuro);
+    }
+
+    .aviso-texto {
+      margin: 0;
+      font-size: .9rem;
+      line-height: 1.5;
+      color: var(--texto);
+    }
+
+    .aviso-contagem {
+      margin: .5rem 0 0;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--laranja-escuro);
     }
 
     .cabecalho {
@@ -240,6 +279,18 @@
 <body>
   <main class="cartao">
 
+    <aside class="aviso" role="alert" aria-labelledby="aviso-titulo">
+      <div class="aviso-icone" aria-hidden="true">⚠️</div>
+      <div>
+        <h2 class="aviso-titulo" id="aviso-titulo">Fim de vida do projeto</h2>
+        <p class="aviso-texto">
+          Este projeto será encerrado em <strong>30 de novembro de 2026</strong>.
+          Após essa data, ele não receberá mais atualizações nem suporte.
+        </p>
+        <p class="aviso-contagem" id="contagem"></p>
+      </div>
+    </aside>
+
     <header class="cabecalho">
       <div class="emoji">📝</div>
       <h1>Minha To-Do List</h1>
@@ -303,9 +354,27 @@
     const concluidas = document.querySelector('#concluidas');
     const mensagem = document.querySelector('#mensagem');
     const botoesFiltro = document.querySelectorAll('.filtro');
+    const contagem = document.querySelector('#contagem');
 
     let tarefas = [];
     let filtroAtual = 'todas';
+
+    function atualizarContagem() {
+      const hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
+      const fim = new Date(2026, 10, 30);
+      const dias = Math.round((fim - hoje) / 86400000);
+
+      if (dias > 1) {
+        contagem.textContent = 'Faltam ' + dias + ' dias.';
+      } else if (dias === 1) {
+        contagem.textContent = 'Falta 1 dia.';
+      } else if (dias === 0) {
+        contagem.textContent = 'O encerramento é hoje.';
+      } else {
+        contagem.textContent = 'Este projeto foi encerrado.';
+      }
+    }
 
     formulario.addEventListener('submit', (evento) => {
       evento.preventDefault();
@@ -421,6 +490,7 @@
       });
     });
 
+    atualizarContagem();
     renderizar();
   </script>
 </body>
